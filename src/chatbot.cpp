@@ -1,9 +1,10 @@
+#include "chatbot.h"
+
 #include <algorithm>
 #include <ctime>
 #include <iostream>
 #include <random>
 
-#include "chatbot.h"
 #include "chatlogic.h"
 #include "graphedge.h"
 #include "graphnode.h"
@@ -41,6 +42,55 @@ ChatBot::~ChatBot() {
 
 //// STUDENT CODE
 ////
+
+ChatBot::ChatBot(const ChatBot &other) {
+  std::cout << "Copy constructor Chatbot @ " << &other << " to " << this
+            << '\n';
+  _image = new wxBitmap(*other._image);
+  SetCurrentNode(other._currentNode);
+  SetRootNode(other._rootNode);
+  SetChatLogicHandle(other._chatLogic);
+}
+
+ChatBot &ChatBot::operator=(const ChatBot &other) {
+  std::cout << "Copy assignment Chatbot @ " << &other << " to " << this << '\n';
+  if (this == &other) {
+    return *this;
+  }
+  delete _image;
+  return *this = ChatBot(other);
+}
+
+ChatBot::ChatBot(ChatBot &&other) noexcept
+    : _image(std::exchange(other._image, nullptr)) {
+  std::cout << "Moving Chatbot @ " << &other << " to " << this << '\n';
+
+  SetCurrentNode(other._currentNode);
+  other._currentNode = nullptr;
+
+  SetRootNode(other._rootNode);
+  other._rootNode = nullptr;
+
+  SetChatLogicHandle(other._chatLogic);
+  other._chatLogic = nullptr;
+}
+
+ChatBot &ChatBot::operator=(ChatBot &&other) noexcept {
+  std::cout << "Moving assignment @ " << &other << " to " << this << '\n';
+  if (this == &other) {
+    return *this;
+  }
+  _image = std::exchange(other._image, nullptr);
+  SetCurrentNode(other._currentNode);
+  other._currentNode = nullptr;
+
+  SetRootNode(other._rootNode);
+  other._rootNode = nullptr;
+
+  SetChatLogicHandle(other._chatLogic);
+  other._chatLogic = nullptr;
+  return *this;
+}
 
 ////
 //// EOF STUDENT CODE
