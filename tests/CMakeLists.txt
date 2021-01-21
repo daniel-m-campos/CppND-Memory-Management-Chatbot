@@ -8,3 +8,6 @@ FetchContent_MakeAvailable(catch)
 
 add_executable(test test.cpp)
 target_link_libraries(test Catch2 chatbot)
+
+configure_file(${CMAKE_SOURCE_DIR}/images/chatbot.png
+        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
