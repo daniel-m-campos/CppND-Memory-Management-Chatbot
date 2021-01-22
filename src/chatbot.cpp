@@ -30,7 +30,7 @@ ChatBot::ChatBot(std::string filename) {
 }
 
 ChatBot::~ChatBot() {
-  std::cout << "ChatBot Destructor @" << this << std::endl;
+  std::cout << "ChatBot Destructor @ " << this << std::endl;
 
   // deallocate heap memory
   if (_image != NULL)  // Attention: wxWidgets used NULL and not nullptr
@@ -50,6 +50,7 @@ ChatBot::ChatBot(const ChatBot &other) {
   _currentNode = other._currentNode;
   _rootNode = other._rootNode;
   _chatLogic = other._chatLogic;
+  _chatLogic->SetChatbotHandle(this);
 }
 
 ChatBot &ChatBot::operator=(const ChatBot &other) {
